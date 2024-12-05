@@ -9,8 +9,13 @@ image:
 
 replicaCount: 1
 
+# Inline environment variables
+# it will be put directly in containers.
 env: {}
 
+# Definition of migrator jobs.
+#
+# This should 
 migrators: {}
 #  pg:
 #    # Job's additional annotations

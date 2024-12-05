@@ -1,6 +1,7 @@
 apiVersion: v2
 name: py-app
-description: A Helm chart for Kubernetes
+description: Generic chart for python applications
+home: https://github.com/Intreecom/charts
 
 # A chart can be either an 'application' or a 'library' chart.
 #
