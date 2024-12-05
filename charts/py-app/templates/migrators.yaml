@@ -1,0 +1,38 @@
+# We iterate over migrators and create a job for each one 
+{{- range $name, $val := .Values.migrators }}
+{{- if $val }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: "{{ include "py-app.fullname" $ }}-{{ $name }}-mj"
+  labels:
+    {{- include "py-app.labels" $ | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    {{- with $val.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ttlSecondsAfterFinished: {{ $.Values.ttlSecondsAfterFinished }}
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: "Never"
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: migrator
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+        imagePullPolicy: Always
+        command: {{ $val.command | toYaml | nindent 10 }}
+        {{- with $val.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}  
+        {{ end -}}
+        {{- include "py-app.envs" $ | indent 8 -}}
+{{- end }}
+{{ end -}}

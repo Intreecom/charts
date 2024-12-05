@@ -1,0 +1,37 @@
+{{- if .Values.taskiq.schedulerCmd }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "py-app.fullname" . }}-tkq-scheduler
+  labels:
+    {{- include "py-app.labels" . | nindent 4 }}
+spec:
+  replicas: 1 # This value should always be 1
+  selector:
+    matchLabels:
+      {{- include "py-app.selectorLabels" . | nindent 6 }}
+      deployment_type: tkq-scheduler
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "py-app.selectorLabels" . | nindent 8 }}
+        deployment_type: tkq-scheduler
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "py-app.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: {{ .Values.taskiq.schedulerCmd | toYaml | nindent 10 }}
+          {{- include "py-app.envs" . | indent 10 -}}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+{{- end }}

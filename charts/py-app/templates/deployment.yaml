@@ -1,0 +1,52 @@
+# The web application's deployment.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "py-app.fullname" . }}-app
+  labels:
+    {{- include "py-app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  {{- with .Values.updateStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "py-app.selectorLabels" . | nindent 6 }}
+      deployment_type: web
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "py-app.selectorLabels" . | nindent 8 }}
+        deployment_type: web
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "py-app.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- with .Values.probes.liveness }}
+          livenessProbe: {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.probes.readiness }}
+          readinessProbe: {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- include "py-app.envs" . | indent 10 -}}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
