@@ -13,6 +13,7 @@ jobs:
       matrix:
         chart:
           - py-app
+          - pgbouncer
     permissions:
       contents: read
       packages: write
@@ -23,7 +24,7 @@ jobs:
           version: latest
       - name: Build Helm chart
         run: |
-          helm package --app-version "${{ github.ref_name }}" --dependency-update ./charts/${{ matrix.chart }}
+          helm package --dependency-update ./charts/${{ matrix.chart }}
           helm show chart *.tgz
           helm registry login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
           helm push *.tgz oci://ghcr.io/intreecom/charts
