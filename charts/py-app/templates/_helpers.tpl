@@ -72,7 +72,7 @@ the main deployment are required.
 env:
     {{- range $key, $val := . }}
     - name: {{ $key }}
-      value: {{ $val | quote }}
+      value: {{ tpl (print $val) $ | quote }}
     {{- end }}
 {{- end }}
 {{- with .Values.externalSecrets }}
