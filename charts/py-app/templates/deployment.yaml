@@ -36,7 +36,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           {{- if .Values.command }}
-          cmd: {{ .Values.command }}
+          command: {{ .Values.command }}
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
