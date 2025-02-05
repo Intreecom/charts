@@ -64,9 +64,12 @@ securityContext: {}
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  # allowed values: ClusterIP (default), NodePort
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 5432
+  # nodePort property is required when the .Values.service.type is NodePort
+  # nodePort: "35432"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -11,5 +11,8 @@ spec:
       targetPort: pg 
       protocol: TCP
       name: pg
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
   selector:
     {{- include "pgbouncer.selectorLabels" . | nindent 4 }}
