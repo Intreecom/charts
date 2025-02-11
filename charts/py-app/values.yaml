@@ -125,3 +125,5 @@ autoscaling:
   maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+extraManifests: []
