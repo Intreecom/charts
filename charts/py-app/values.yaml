@@ -126,4 +126,13 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+limitRange:
+  create: false
+  # limits:
+  #   - default:
+  #       memory: 700Mi
+  #     defaultRequest:
+  #       cpu: 50m
+  #       memory: 500Mi
+  #     type: Container
 extraManifests: []
