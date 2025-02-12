@@ -8,6 +8,7 @@ metadata:
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 5 }}
   {{- end }}
   {{- with .Values.updateStrategy }}
   strategy:
@@ -53,6 +54,9 @@ spec:
           startupProbe: {{ . | toYaml | nindent 12 }}
           {{- end }}
           {{- include "py-app.envs" . | indent 10 -}}
+          {{- with .Values.securityContext }}
+          securityContext: {{ . | toYaml | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 

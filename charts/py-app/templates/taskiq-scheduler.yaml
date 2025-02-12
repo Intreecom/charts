@@ -33,5 +33,5 @@ spec:
           command: {{ .Values.taskiq.schedulerCmd | toYaml | nindent 10 }}
           {{- include "py-app.envs" . | indent 10 -}}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.taskiq.resources | nindent 12 }}
 {{- end }}

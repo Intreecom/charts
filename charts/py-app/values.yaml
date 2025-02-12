@@ -30,6 +30,7 @@ ttlSecondsAfterFinished: 3600
 taskiq:
   workerCmd: []
   schedulerCmd: []
+  resources: {}
   workers: 1
   autoscaling:
     enabled: false
