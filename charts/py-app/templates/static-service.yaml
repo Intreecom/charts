@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.staticServiceName }}
+  name: {{ include "py-app.staticServiceName" . }}
   labels:
     {{- include "py-app.labels" . | nindent 4 }}
 spec:

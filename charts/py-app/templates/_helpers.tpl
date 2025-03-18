@@ -83,3 +83,10 @@ envFrom:
     {{- end }}
 {{- end }}
 {{ end -}}
+
+{{/*
+Create staticServiceName, same for all environments
+*/}}
+{{- define "py-app.staticServiceName" -}}
+{{- .Values.service.staticServiceName | default (printf "%s-%s" .Values.nameOverride "static-svc") }}
+{{- end }}
