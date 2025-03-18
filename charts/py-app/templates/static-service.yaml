@@ -1,0 +1,18 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.staticServiceName }}
+  labels:
+    {{- include "py-app.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort | default "static-service" }}
+      protocol: TCP
+      name: static-service
+  selector:
+    {{- include "py-app.selectorLabels" . | nindent 4 }}
+    deployment_type: web
+{{- end }}

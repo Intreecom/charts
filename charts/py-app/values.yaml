@@ -87,6 +87,7 @@ service:
   enabled: true
   type: ClusterIP
   port: 80
+  staticServiceName: ""
 
 ingress:
   enabled: false
