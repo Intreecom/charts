@@ -1,8 +1,8 @@
-{{- if .Values.service.enabled -}}
+{{- if and .Values.service.enabled .Values.service.staticServiceName -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "py-app.staticServiceName" . }}
+  name: {{ .Values.service.staticServiceName }}
   labels:
     {{- include "py-app.labels" . | nindent 4 }}
 spec:
