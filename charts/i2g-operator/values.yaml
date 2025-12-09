@@ -11,7 +11,12 @@ replicaCount: 1
 
 # Inline environment variables
 # it will be put directly in containers.
-env: {}
+env:
+  I2G_LOG_LEVEL: "info"
+  I2G_EXPERIMENTAL: "true"
+  I2G_LINK_TO_INGRESS: "true"
+  I2G_DEFAULT_GATEWAY_NAME: "gateway"
+  I2G_DEFAULT_GATEWAY_NAMESPACE: "default"
 
 updateStrategy: {}
   # type: RollingUpdate
