@@ -1,0 +1,49 @@
+{{- if .Values.serviceAccount.create -}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "i2g-operator.fullname" . }}-cr
+  labels:
+    {{- include "i2g-operator.labels" . | nindent 4 }}
+rules:
+  # Permission to read Ingress resources from any namespace
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  # Permission to Create/Read/Update/Delete HTTPRoute, TCPRoute, and GRPCRoute resources in any namespace
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - httproutes
+      - tcproutes
+      - grpcroutes
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "i2g-operator.fullname" . }}-crb
+  labels:
+    {{- include "i2g-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "i2g-operator.fullname" . }}-cr
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "i2g-operator.serviceAccountName" . }}-sa
+    namespace: {{ .Release.Namespace }}
+{{- end }}
