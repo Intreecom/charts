@@ -14,6 +14,7 @@ jobs:
         chart:
           - py-app
           - pgbouncer
+          - i2g-operator
     permissions:
       contents: read
       packages: write

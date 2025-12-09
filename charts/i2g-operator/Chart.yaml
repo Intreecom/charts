@@ -1,0 +1,7 @@
+apiVersion: v2
+name: i2g-operator
+description: Ingress to Gateway Operator
+home: https://github.com/Intreecom/charts
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
