@@ -1,0 +1,12 @@
+{{- if .Values.limitRange.create }}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: {{ include "i2g-operator.fullname" . }}
+  labels:
+    {{- include "i2g-operator.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.limitRange.limits }}
+  limits: {{ . | toYaml | nindent 2 }}
+  {{- end }}
+{{- end -}}
