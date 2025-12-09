@@ -46,4 +46,38 @@ subjects:
   - kind: ServiceAccount
     name: {{ include "i2g-operator.serviceAccountName" . }}-sa
     namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "i2g-operator.fullname" . }}-role
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "i2g-operator.labels" . | nindent 4 }}
+rules:
+  # Permission to acquire and renew leases
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - get
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "i2g-operator.fullname" . }}-rb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "i2g-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "i2g-operator.fullname" . }}-role
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "i2g-operator.serviceAccountName" . }}-sa
+    namespace: {{ .Release.Namespace }}
 {{- end }}
