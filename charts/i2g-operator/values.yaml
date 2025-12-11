@@ -5,18 +5,19 @@ image:
   repository: ghcr.io/intreecom/i2g-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: ""
 
 replicaCount: 1
 
 # Inline environment variables
 # it will be put directly in containers.
 env:
-  I2G_LOG_LEVEL: "info"
-  I2G_EXPERIMENTAL: "true"
-  I2G_LINK_TO_INGRESS: "true"
   I2G_DEFAULT_GATEWAY_NAME: "gateway"
   I2G_DEFAULT_GATEWAY_NAMESPACE: "default"
+  # I2G_LOG_LEVEL: "info"
+  # I2G_EXPERIMENTAL: "false"
+  # I2G_LINK_TO_INGRESS: "true"
+  # I2G_SKIP_BY_DEFAULT: "false"
 
 updateStrategy: {}
   # type: RollingUpdate
