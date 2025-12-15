@@ -27,9 +27,9 @@ spec:
       sectionName: {{ .Values.httproute.httpsListenerName }}
   {{- with .Values.httproute.hostnames }}
   hostnames: {{ tpl (toYaml .) $ | nindent 4 }}
-  {{- end -}}
-  {{ range .Values.httproute.rules }}
+  {{- end}}
   rules:
+    {{- range .Values.httproute.rules }}
     - backendRefs:
         {{- if .backendRefs }}
         {{ toYaml .backendRefs | nindent 8 }}
