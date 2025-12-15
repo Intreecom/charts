@@ -126,7 +126,10 @@ httproute:
   httpListenerName: example-com-http
 
   rules:
-    - matches: []
+    - backendRef:
+        name: ""
+        port: ""
+        matches: []
         # - path:
         #     type: PathPrefix
         #     value: /api/someplace
