@@ -31,7 +31,7 @@ spec:
   rules:
     {{- range .Values.httproute.rules }}
     - backendRefs:
-        {{- if .backendRefs }}
+        {{- if .backendRefs -}}
         {{ toYaml .backendRefs | nindent 8 }}
         {{- else }}
         - name: {{ $fullName }}
