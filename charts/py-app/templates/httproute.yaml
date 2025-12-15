@@ -2,6 +2,7 @@
 ---
 {{- $fullName := include "py-app.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
+{{- $gatewayName := required "httproute.gatewayName is required and cannot be empty" .Values.httproute.gatewayName -}}
 
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -17,8 +18,10 @@ metadata:
     {{- end }}
 spec:
   parentRefs:
-    - name: {{ .Values.httproute.gatewayName }}
-      namespace: {{ .Values.httproute.gatewayNamespace }}
+    - name: {{ $gatewayName }}
+      {{- with .Values.httproute.gatewayNamespace }}
+      namespace: {{ . }}
+      {{- end }}
       kind: Gateway
       group: gateway.networking.k8s.io
       sectionName: {{ .Values.httproute.httpsListenerName }}
@@ -56,8 +59,10 @@ spec:
   hostnames: {{ tpl (toYaml .) $ | nindent 4 }}
   {{- end }}
   parentRefs:
-    - name: {{ .Values.httproute.gatewayName }}
-      namespace: {{ .Values.httproute.gatewayNamespace }}
+    - name: {{ $gatewayName }}
+      {{- with .Values.httproute.gatewayNamespace }}
+      namespace: {{ . }}
+      {{- end }}
       kind: Gateway
       group: gateway.networking.k8s.io
       sectionName: {{ .Values.httproute.httpListenerName }}
