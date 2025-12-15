@@ -31,8 +31,12 @@ spec:
   {{ range .Values.httproute.rules }}
   rules:
     - backendRefs:
-        - name: {{ .backendRef.name | default $fullName }}
-          port: {{ .backendRef.port | default $svcPort }}
+        {{- if .backendRefs }}
+        {{ toYaml .backendRefs | nindent 8 }}
+        {{- else }}
+        - name: {{ $fullName }}
+          port: {{ $svcPort }}
+        {{- end }}
       {{- with .filters }}
       filters: {{ toYaml . | nindent 8 }}
       {{- end }}

@@ -126,9 +126,9 @@ httproute:
   httpListenerName: example-com-http
 
   rules:
-    - backendRef:
-        name: ""
-        port: ""
+    - backendRefs:
+        - name: ""
+          port: ""
       matches: []
         # - path:
         #     type: PathPrefix
