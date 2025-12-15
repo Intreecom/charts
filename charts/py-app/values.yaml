@@ -109,7 +109,7 @@ ingress:
 
 # HTTPRoute configuration
 httproute:
-  enabled: true
+  enabled: false
 
   annotations: {}
   labels: {}
@@ -129,7 +129,7 @@ httproute:
     - backendRef:
         name: ""
         port: ""
-        matches: []
+      matches: []
         # - path:
         #     type: PathPrefix
         #     value: /api/someplace
