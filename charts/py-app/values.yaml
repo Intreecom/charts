@@ -15,7 +15,7 @@ env: {}
 
 # Definition of migrator jobs.
 #
-# This should 
+# This should
 migrators: {}
 #  pg:
 #    # Job's additional annotations
@@ -48,7 +48,6 @@ probes:
     # httpGet:
     #   path: /api/app/health
     #   port: http
-  
 
 externalSecrets: {}
   # secret-envs:
@@ -92,8 +91,7 @@ service:
 ingress:
   enabled: false
   className: ""
-  annotations:
-    {}
+  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts: []
@@ -108,6 +106,35 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+# HTTPRoute configuration
+httproute:
+  enabled: true
+
+  annotations: {}
+  labels: {}
+
+  hostnames:
+    - example.com
+  httpsRedirect:
+    enabled: true
+
+  # Gateway resource of following configuration has to be created beforehand.
+  gatewayName: ""
+  gatewayNamespace: ""
+  httpsListenerName: example-com-https
+  httpListenerName: example-com-http
+
+  rules:
+    - matches: []
+        # - path:
+        #     type: PathPrefix
+        #     value: /api/someplace
+        #   headers: []
+        #   queryParams: []
+      filters: []
+        # - type: ReplacePrefixMatch
+        #   replacePrefixMatch: /api/someotherplace
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
