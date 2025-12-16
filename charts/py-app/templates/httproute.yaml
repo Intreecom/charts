@@ -27,12 +27,16 @@ spec:
       sectionName: {{ .Values.httproute.httpsListenerName }}
   {{- with .Values.httproute.hostnames }}
   hostnames: {{ tpl (toYaml .) $ | nindent 4 }}
-  {{- end -}}
-  {{ range .Values.httproute.rules }}
+  {{- end}}
   rules:
+    {{- range .Values.httproute.rules }}
     - backendRefs:
+        {{- if .backendRefs -}}
+        {{ toYaml .backendRefs | nindent 8 }}
+        {{- else }}
         - name: {{ $fullName }}
           port: {{ $svcPort }}
+        {{- end }}
       {{- with .filters }}
       filters: {{ toYaml . | nindent 8 }}
       {{- end }}

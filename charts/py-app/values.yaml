@@ -109,7 +109,7 @@ ingress:
 
 # HTTPRoute configuration
 httproute:
-  enabled: true
+  enabled: false
 
   annotations: {}
   labels: {}
@@ -125,16 +125,19 @@ httproute:
   httpsListenerName: example-com-https
   httpListenerName: example-com-http
 
-  rules:
-    - matches: []
-        # - path:
-        #     type: PathPrefix
-        #     value: /api/someplace
-        #   headers: []
-        #   queryParams: []
-      filters: []
-        # - type: ReplacePrefixMatch
-        #   replacePrefixMatch: /api/someotherplace
+  rules: []
+    # - backendRefs:
+    #     - name: ""
+    #       port: ""
+    #   matches: []
+    #     # - path:
+    #     #     type: PathPrefix
+    #     #     value: /api/someplace
+    #     #   headers: []
+    #     #   queryParams: []
+    #   filters: []
+    #     # - type: ReplacePrefixMatch
+    #     #   replacePrefixMatch: /api/someotherplace
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
