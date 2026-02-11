@@ -13,6 +13,11 @@ replicaCount: 1
 # it will be put directly in containers.
 env: {}
 
+# annotations and/or labels for zero-code instrumentation support (OpenTelemetry Collector and Grafana Beyla)
+instrumentation:
+  annotations: {}
+  labels: {}
+
 # Definition of migrator jobs.
 #
 # This should
