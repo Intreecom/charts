@@ -13,13 +13,16 @@ spec:
       deployment_type: tkq-scheduler
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- $podAnnotations := merge (deepCopy (default dict .Values.podAnnotations)) (default dict .Values.instrumentation.annotations) }}
+      {{- with $podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- $baseSelectorLabels := (include "py-app.selectorLabels" . | fromYaml) }}
+      {{- $_ := set $baseSelectorLabels "deployment_type" "tkq-scheduler" }}
+      {{- $mergedLabels := merge $baseSelectorLabels (default dict .Values.instrumentation.labels) }}
       labels:
-        {{- include "py-app.selectorLabels" . | nindent 8 }}
-        deployment_type: tkq-scheduler
+        {{- toYaml $mergedLabels | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
