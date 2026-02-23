@@ -37,6 +37,8 @@ taskiq:
   schedulerCmd: []
   resources: {}
   workers: 1
+  instrumentation:
+    enabled: false
   autoscaling:
     enabled: false
     minReplicas: 1
