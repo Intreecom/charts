@@ -19,14 +19,16 @@ spec:
       deployment_type: tkq-worker
   template:
     metadata:
-      {{- $podAnnotations := merge (deepCopy (default dict .Values.podAnnotations)) (default dict .Values.instrumentation.annotations) }}
+      {{- $instrumentationAnnotations := ternary (default dict .Values.instrumentation.annotations) dict .Values.taskiq.instrumentation.enabled }}
+      {{- $podAnnotations := merge (deepCopy (default dict .Values.podAnnotations)) $instrumentationAnnotations }}
       {{- with $podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- $baseSelectorLabels := (include "py-app.selectorLabels" . | fromYaml) }}
       {{- $_ := set $baseSelectorLabels "deployment_type" "tkq-worker" }}
-      {{- $mergedLabels := merge $baseSelectorLabels (default dict .Values.instrumentation.labels) }}
+      {{- $instrumentationLabels := ternary (default dict .Values.instrumentation.labels) dict .Values.taskiq.instrumentation.enabled }}
+      {{- $mergedLabels := merge $baseSelectorLabels $instrumentationLabels }}
       labels:
         {{- toYaml $mergedLabels | nindent 8 }}
     spec:
