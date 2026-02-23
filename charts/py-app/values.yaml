@@ -38,7 +38,10 @@ taskiq:
   resources: {}
   workers: 1
   instrumentation:
-    enabled: false
+    worker:
+      enabled: false
+    scheduler:
+      enabled: false
   autoscaling:
     enabled: false
     minReplicas: 1

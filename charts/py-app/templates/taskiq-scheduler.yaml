@@ -13,7 +13,7 @@ spec:
       deployment_type: tkq-scheduler
   template:
     metadata:
-      {{- $instrumentationAnnotations := ternary (default dict .Values.instrumentation.annotations) dict .Values.taskiq.instrumentation.enabled }}
+      {{- $instrumentationAnnotations := ternary (default dict .Values.instrumentation.annotations) dict .Values.taskiq.instrumentation.scheduler.enabled }}
       {{- $podAnnotations := merge (deepCopy (default dict .Values.podAnnotations)) $instrumentationAnnotations }}
       {{- with $podAnnotations }}
       annotations:
@@ -21,7 +21,7 @@ spec:
       {{- end }}
       {{- $baseSelectorLabels := (include "py-app.selectorLabels" . | fromYaml) }}
       {{- $_ := set $baseSelectorLabels "deployment_type" "tkq-scheduler" }}
-      {{- $instrumentationLabels := ternary (default dict .Values.instrumentation.labels) dict .Values.taskiq.instrumentation.enabled }}
+      {{- $instrumentationLabels := ternary (default dict .Values.instrumentation.labels) dict .Values.taskiq.instrumentation.scheduler.enabled }}
       {{- $mergedLabels := merge $baseSelectorLabels $instrumentationLabels }}
       labels:
         {{- toYaml $mergedLabels | nindent 8 }}
