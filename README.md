@@ -6,13 +6,13 @@ You can find charts in charts folder and oci images for every chart in github pa
 ## How to use (example)
 #### yaml rendering
 ```bash
-helm template oci://ghcr.io/intreecom/charts/py-app --version 0.1.0
+helm template oci://ghcr.io/treetscom/charts/py-app --version 0.1.0
 ```
 #### show chart values
 ```bash
-helm show values oci://ghcr.io/intreecom/charts/py-app --version 0.1.0
+helm show values oci://ghcr.io/treetscom/charts/py-app --version 0.1.0
 ```
 #### install chart
 ```bash
-helm install py-app oci://ghcr.io/intreecom/charts/py-app --version 0.1.0
+helm install py-app oci://ghcr.io/treetscom/charts/py-app --version 0.1.0
 ```

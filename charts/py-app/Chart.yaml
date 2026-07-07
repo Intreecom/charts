@@ -1,7 +1,7 @@
 apiVersion: v2
 name: py-app
 description: Generic chart for python applications
-home: https://github.com/Intreecom/charts
+home: https://github.com/Treetscom/charts
 
 # A chart can be either an 'application' or a 'library' chart.
 #
