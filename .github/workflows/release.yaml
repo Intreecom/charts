@@ -28,6 +28,6 @@ jobs:
           helm package --dependency-update ./charts/${{ matrix.chart }}
           helm show chart *.tgz
           helm registry login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-          helm push *.tgz oci://ghcr.io/intreecom/charts
+          helm push *.tgz oci://ghcr.io/treetscom/charts
         env:
           HELM_EXPERIMENTAL_OCI: 1
