@@ -1,0 +1,50 @@
+{{- if .Values.scaledObject.app.enabled }}
+---
+# KEDA ScaledObject for the web deployment.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "py-app.fullname" . }}-app-scaledobject
+  labels:
+    {{- include "py-app.labels" . | nindent 4 }}
+  {{- with .Values.scaledObject.app.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "py-app.fullname" . }}-app
+  minReplicaCount: {{ .Values.scaledObject.app.minReplicaCount }}
+  maxReplicaCount: {{ .Values.scaledObject.app.maxReplicaCount }}
+  pollingInterval: {{ .Values.scaledObject.app.pollingInterval }}
+  cooldownPeriod: {{ .Values.scaledObject.app.cooldownPeriod }}
+  triggers:
+    {{- toYaml .Values.scaledObject.app.triggers | nindent 4 }}
+{{- end }}
+{{- if .Values.scaledObject.worker.enabled }}
+---
+# KEDA ScaledObject for the taskiq worker deployment.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "py-app.fullname" . }}-tkq-scaledobject
+  labels:
+    {{- include "py-app.labels" . | nindent 4 }}
+  {{- with .Values.scaledObject.worker.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "py-app.fullname" . }}-tkq
+  minReplicaCount: {{ .Values.scaledObject.worker.minReplicaCount }}
+  maxReplicaCount: {{ .Values.scaledObject.worker.maxReplicaCount }}
+  pollingInterval: {{ .Values.scaledObject.worker.pollingInterval }}
+  cooldownPeriod: {{ .Values.scaledObject.worker.cooldownPeriod }}
+  triggers:
+    {{- toYaml .Values.scaledObject.worker.triggers | nindent 4 }}
+{{- end }}

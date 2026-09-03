@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "py-app.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if and (not .Values.autoscaling.enabled) (not .Values.scaledObject.app.enabled) }}
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 5 }}
   {{- end }}

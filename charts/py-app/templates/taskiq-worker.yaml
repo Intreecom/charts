@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "py-app.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.taskiq.autoscaling.enabled }}
+  {{- if and (not .Values.taskiq.autoscaling.enabled) (not .Values.scaledObject.worker.enabled) }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   {{- with .Values.updateStrategy }}
