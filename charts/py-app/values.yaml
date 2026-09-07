@@ -168,6 +168,52 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# KEDA ScaledObjects, one per scalable deployment.
+# Requires KEDA to be installed in the target cluster.
+# There is deliberately no key for the taskiq scheduler: it runs a single
+# replica by design (see taskiq-scheduler.yaml) and must never be autoscaled.
+scaledObject:
+  # The web deployment (-app).
+  app:
+    enabled: false
+    annotations:
+      argocd.argoproj.io/sync-options: ServerSideApply=true
+    minReplicaCount: 1
+    maxReplicaCount: 5
+    pollingInterval: 15
+    cooldownPeriod: 300
+    # Passed to the ScaledObject as is, see https://keda.sh/docs/latest/scalers/
+    triggers: []
+    #  - type: nats-jetstream
+    #    metadata:
+    #      natsServerMonitoringEndpoint: nats-headless.nats.svc.cluster.local:8222
+    #      account: "$G"
+    #      stream: intree
+    #      consumer: intree_api
+    #      lagThreshold: "5"
+    #      activationLagThreshold: "0"
+    #      useHttps: "false"
+  # The taskiq worker deployment (-tkq).
+  worker:
+    enabled: false
+    annotations:
+      argocd.argoproj.io/sync-options: ServerSideApply=true
+    minReplicaCount: 1
+    maxReplicaCount: 5
+    pollingInterval: 15
+    cooldownPeriod: 300
+    # Passed to the ScaledObject as is, see https://keda.sh/docs/latest/scalers/
+    triggers: []
+    #  - type: nats-jetstream
+    #    metadata:
+    #      natsServerMonitoringEndpoint: nats-headless.nats.svc.cluster.local:8222
+    #      account: "$G"
+    #      stream: intree
+    #      consumer: intree_api
+    #      lagThreshold: "5"
+    #      activationLagThreshold: "0"
+    #      useHttps: "false"
+
 limitRange:
   create: false
   # limits:
